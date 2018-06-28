@@ -20,9 +20,10 @@
                 <li role="presentation" class="{{ Request::is('users/*/followers') ? 'active' : '' }}"><a href="{{ route('users.followers', ['id' => $user->id]) }}">Followers <span class="badge">{{ $count_followers }}</span></a></li>
             </ul>
             @if (Auth::user()->id == $user->id)
-                  {!! Form::open(['route' => 'microposts.store']) !!}
+                  {!! Form::open(['route' => 'microposts.store', 'files' => true]) !!}
                       <div class="form-group">
                           {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => '2']) !!}
+                          {!! Form::file('file') !!}
                           {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
                       </div>
                   {!! Form::close() !!}
