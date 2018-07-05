@@ -19,6 +19,12 @@
                     {!! Form::close() !!}
                 @endif
             </div>
+            <div>
+                
+                @if ($micropost->image_url != "null")
+                    <img src="/storage/image/{{ $micropost->image_url }}" class="img-responsive">
+                @endif
+            </div>
         </div>
     </li>
 @endforeach

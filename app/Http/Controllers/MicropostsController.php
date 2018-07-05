@@ -30,14 +30,31 @@ class MicropostsController extends Controller
 
     public function store(Request $request)
     {
+        //return var_dump($request->file);
+        //return print $request->file;
+
         $this->validate($request, [
             'content' => 'required|max:191',
+            'file' => [
+            // アップロードされたファイルであること
+            'file',
+            // 最小縦横120px 最大縦横400px
+            'dimensions:min_width=10,min_height=10,max_width=2400,max_height=2400',
+            ] 
         ]);
-
-        $request->user()->microposts()->create([
-            'content' => $request->content,
-        ]);
-
+        if (null !== $request->file){
+            if ($request->file('file')->isValid([])) {
+                $filename = basename($request->file->store('public/image'));
+                $request->user()->microposts()->create([
+                    'content' => $request->content,
+                    'image_url' => $filename,
+                ]);
+            }
+        }else{
+            $request->user()->microposts()->create([
+                'content' => $request->content,
+            ]);
+        }
         return redirect()->back();
     }
 
